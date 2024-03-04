@@ -53,22 +53,22 @@ function handleSearchSubmit(event) {
 
   searchCity(searchInput.value);
 }
-
-function formatDay(timestamp) {
-  let date = new Date(timestamp * 1000);
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-  return days[date.getDay()];
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function (position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log("Latitude:", latitude);
+    console.log("Longitude:", longitude);
+  });
+} else {
+  console.log("Geolocation is not supported by this browser.");
 }
-
 function getForecast(city) {
   let apiKey = "c8c743638tcc20ffb06eb50o53a0604d";
   let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
   axios(apiUrl).then(displayForecast);
 }
-
 function displayForecast(response) {
-    
   let forecastHtml = "";
 
   response.data.daily.forEach(function (day, index) {
@@ -101,16 +101,3 @@ let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Paris");
-
-
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function (position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    console.log("Latitude:", latitude);
-    console.log("Longitude:", longitude);
-  });
-} else {
-  console.log("Geolocation is not supported by this browser.");
-}
-
