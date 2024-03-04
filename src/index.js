@@ -68,6 +68,7 @@ function getForecast(city) {
 }
 
 function displayForecast(response) {
+    
   let forecastHtml = "";
 
   response.data.daily.forEach(function (day, index) {
@@ -100,3 +101,16 @@ let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 searchCity("Paris");
+
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function (position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log("Latitude:", latitude);
+    console.log("Longitude:", longitude);
+  });
+} else {
+  console.log("Geolocation is not supported by this browser.");
+}
+
